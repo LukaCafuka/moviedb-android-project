@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="?colorPrimary"
+    app:cardCornerRadius="@dimen/_12dp"
+    app:cardUseCompatPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="@dimen/_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            tools:src="@drawable/movie_placeholder"
+            android:id="@+id/ivItem"
+            android:layout_width="@dimen/_50dp"
+            android:layout_height="@dimen/_50dp" />
+
+        <TextView
+            android:textColor="?colorOnPrimary"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/_20sp"
+            android:layout_marginStart="@dimen/_20dp"
+            tools:text="Picture of the day"
+            android:id="@+id/tvItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
