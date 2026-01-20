@@ -4,16 +4,34 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import hr.algebra.moviedb.databinding.ActivityHostBinding
+import hr.algebra.moviedb.framework.PermissionHelper
+
+private const val KEY_DRAWER_OPEN = "drawer_open"
 
 class HostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHostBinding
+    private var isDrawerOpen = false
+    
+    // Register the permission launcher for notification permission
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        // Handle the permission result
+        if (isGranted) {
+            // Permission granted - notifications will work
+        } else {
+            // Permission denied - notifications won't be shown
+            // App continues to work without notifications
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +41,43 @@ class HostActivity : AppCompatActivity() {
 
         initHamburgerMenu()
         initNavigation()
+        
+        // Request notification permission on Android 13+
+        requestNotificationPermissionIfNeeded()
+        
+        // Restore drawer state
+        savedInstanceState?.let {
+            isDrawerOpen = it.getBoolean(KEY_DRAWER_OPEN, false)
+            if (isDrawerOpen) {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+    }
+    
+    private fun requestNotificationPermissionIfNeeded() {
+        if (!PermissionHelper.hasNotificationPermission(this)) {
+            // Check if we should show rationale
+            if (PermissionHelper.shouldShowNotificationRationale(this)) {
+                // Show explanation dialog before requesting
+                AlertDialog.Builder(this)
+                    .setTitle(R.string.notification_permission_title)
+                    .setMessage(R.string.notification_permission_message)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        PermissionHelper.requestNotificationPermission(notificationPermissionLauncher)
+                    }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+            } else {
+                // Request permission directly
+                PermissionHelper.requestNotificationPermission(notificationPermissionLauncher)
+            }
+        }
+    }
+    
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save drawer state
+        outState.putBoolean(KEY_DRAWER_OPEN, binding.drawerLayout.isDrawerOpen(GravityCompat.START))
     }
 
     private fun handleTransition() {

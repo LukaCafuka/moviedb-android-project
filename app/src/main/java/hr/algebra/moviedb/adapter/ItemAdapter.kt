@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import hr.algebra.moviedb.MOVIE_PROVIDER_CONTENT_URI
+import hr.algebra.moviedb.MovieDetailActivity
 import hr.algebra.moviedb.R
 import hr.algebra.moviedb.model.Item
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -17,8 +18,9 @@ import java.io.File
 
 class ItemAdapter(
     private val context: Context,
-    private val items: MutableList<Item>
-) : RecyclerView.Adapter<ItemAdapter.ViewHolder>(){
+    private var items: MutableList<Item>,
+    private var showImages: Boolean = true
+) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,21 +37,29 @@ class ItemAdapter(
         position: Int
     ) {
         val item = items[position]
-        holder.bind(item)
+        holder.bind(item, showImages)
 
         holder.itemView.setOnClickListener {
-            // TODO
+            // Open movie detail with ViewPager
+            val intent = MovieDetailActivity.newIntent(context, items.toList(), position)
+            context.startActivity(intent)
         }
 
         holder.itemView.setOnLongClickListener {
             deleteItem(position)
             true
         }
-
     }
-
-    // "content://hr.algebra.moviedb.provider/items
-    //"content://hr.algebra.moviedb.provider/items/22
+    
+    /**
+     * Updates the adapter data and display settings.
+     * Call this when settings change or data needs to be refreshed.
+     */
+    fun updateData(newItems: MutableList<Item>, newShowImages: Boolean) {
+        items = newItems
+        showImages = newShowImages
+        notifyDataSetChanged()
+    }
 
     private fun deleteItem(position: Int) {
         val item = items[position]
@@ -58,25 +68,40 @@ class ItemAdapter(
             null,
             null
         )
-        File(item.picturePath).delete()
+        // Delete cached poster file
+        if (item.posterPath.isNotEmpty()) {
+            File(item.posterPath).delete()
+        }
         items.removeAt(position)
         notifyDataSetChanged()
     }
 
     override fun getItemCount() = items.count()
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        private val tvItem = itemView.findViewById<TextView>(R.id.tvItem)
-        private val ivItem = itemView.findViewById<ImageView>(R.id.ivItem)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvTitle = itemView.findViewById<TextView>(R.id.tvItem)
+        private val tvRating = itemView.findViewById<TextView>(R.id.tvRating)
+        private val ivPoster = itemView.findViewById<ImageView>(R.id.ivItem)
 
-        fun bind(item: Item){
-            tvItem.text = item.title
-            Picasso.get()
-                .load(File(item.picturePath))
-                .error(R.drawable.movie_placeholder)
-                .transform(RoundedCornersTransformation(50, 5))
-                .into(ivItem)
+        fun bind(item: Item, showImages: Boolean) {
+            tvTitle.text = item.title
+            tvRating?.text = "★ ${String.format("%.1f", item.rating)}"
+            
+            // Show or hide image based on settings
+            if (showImages) {
+                ivPoster.visibility = View.VISIBLE
+                if (item.posterPath.isNotEmpty()) {
+                    Picasso.get()
+                        .load(File(item.posterPath))
+                        .error(R.drawable.movie_placeholder)
+                        .transform(RoundedCornersTransformation(50, 5))
+                        .into(ivPoster)
+                } else {
+                    ivPoster.setImageResource(R.drawable.movie_placeholder)
+                }
+            } else {
+                ivPoster.visibility = View.GONE
+            }
         }
-
     }
 }

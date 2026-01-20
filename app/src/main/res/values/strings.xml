@@ -5,9 +5,32 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="application_made_by_algebra_students">Application made by Algebra students</string>
-    <string name="items">Items</string>
+    <string name="items">Movies</string>
     <string name="about">About</string>
     <string name="exit">Exit</string>
     <string name="do_you_really_want_to_exit_an_app">Do you really want to exit an app?</string>
     <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
+    <string name="general_settings">General Settings</string>
+    <string name="display_settings">Display Settings</string>
+    <string name="data_settings">Data Settings</string>
+    <string name="auto_refresh">Auto Refresh</string>
+    <string name="auto_refresh_summary">Automatically refresh movie data</string>
+    <string name="refresh_interval">Refresh Interval</string>
+    <string name="refresh_interval_summary">How often to refresh data</string>
+    <string name="show_images">Show Images</string>
+    <string name="show_images_summary">Display movie images in the list</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="sort_order_summary">How to sort movies</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_cache_summary">Clear cached images and data</string>
+    <string name="reset_data">Reset Data</string>
+    <string name="reset_data_summary">Clear all stored movie data</string>
+    <string name="notification_channel_name">Movie Updates</string>
+    <string name="notification_channel_description">Notifications for new movie data</string>
+    <string name="notification_title">Movies Updated</string>
+    <string name="notification_content">%d new movies have been fetched</string>
+    <string name="movies">Movies</string>
+    <string name="notification_permission_title">Enable Notifications</string>
+    <string name="notification_permission_message">Allow notifications to get updates when new movies are fetched.</string>
 </resources>

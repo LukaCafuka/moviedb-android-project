@@ -7,18 +7,19 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import hr.algebra.moviedb.model.Item
 
-private const val DB_NAME = "items.db"
-private const val DB_VERSION = 1
-private const val TABLE_NAME = "items"
+private const val DB_NAME = "movies.db"
+private const val DB_VERSION = 2
+private const val TABLE_NAME = "movies"
 private val CREATE_TABLE = "create table $TABLE_NAME( " +
         "${Item::_id.name} integer primary key autoincrement, " +
         "${Item::title.name} text not null, " +
-        "${Item::explanation.name} text not null, " +
-        "${Item::picturePath.name} text not null, " +
-        "${Item::date.name} text not null, " +
-        "${Item::read.name} integer not null" +
+        "${Item::overview.name} text not null, " +
+        "${Item::posterPath.name} text not null, " +
+        "${Item::releaseDate.name} text not null, " +
+        "${Item::rating.name} real not null, " +
+        "${Item::watched.name} integer not null" +
         ")"
-private const val DROP_TABLE = "drop table $TABLE_NAME"
+private const val DROP_TABLE = "drop table if exists $TABLE_NAME"
 
 class DBRepository(context: Context?) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION)
@@ -77,6 +78,8 @@ class DBRepository(context: Context?) :
         oldVersion: Int,
         newVersion: Int
     ) {
+        // Drop old tables from previous version
+        db?.execSQL("drop table if exists items")
         db?.execSQL(DROP_TABLE)
         onCreate(db)
     }

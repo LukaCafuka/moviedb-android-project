@@ -7,6 +7,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import hr.algebra.moviedb.api.MovieWorker
 import hr.algebra.moviedb.databinding.ActivitySplashScreenBinding
+import hr.algebra.moviedb.framework.AlarmHelper
+import hr.algebra.moviedb.framework.NotificationHelper
 import hr.algebra.moviedb.framework.applyAnimation
 import hr.algebra.moviedb.framework.callDelayed
 import hr.algebra.moviedb.framework.getBooleanPreference
@@ -15,6 +17,7 @@ import hr.algebra.moviedb.framework.startActivity
 
 private const val DELAY = 3000L
 const val DATA_IMPORTED = "hr.algebra.moviedb.data_imported"
+
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
@@ -24,9 +27,14 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Create notification channel early
+        NotificationHelper.createNotificationChannel(this)
+        
+        // Initialize alarm from settings
+        AlarmHelper.updateAlarmFromSettings(this)
+
         startAnimations()
         redirect()
-
     }
 
     private fun startAnimations() {

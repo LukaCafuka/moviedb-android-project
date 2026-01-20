@@ -1,10 +1,13 @@
 package hr.algebra.moviedb.model
 
+import java.io.Serializable
+
 data class Item(
     var _id: Long?,
     val title: String,
-    val explanation: String,
-    val picturePath: String,
-    val date: String,
-    var read: Boolean
-)
+    val overview: String,
+    val posterPath: String,
+    val releaseDate: String,
+    val rating: Double,
+    var watched: Boolean
+) : Serializable

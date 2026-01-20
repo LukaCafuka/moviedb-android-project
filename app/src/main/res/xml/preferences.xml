@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/general_settings"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:key="auto_refresh"
+            android:title="@string/auto_refresh"
+            android:summary="@string/auto_refresh_summary"
+            android:defaultValue="true" />
+
+        <ListPreference
+            android:key="refresh_interval"
+            android:title="@string/refresh_interval"
+            android:entries="@array/refresh_intervals"
+            android:entryValues="@array/refresh_interval_values"
+            android:defaultValue="3600"
+            android:dependency="auto_refresh" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/display_settings"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:key="show_images"
+            android:title="@string/show_images"
+            android:summary="@string/show_images_summary"
+            android:defaultValue="true" />
+
+        <ListPreference
+            android:key="sort_order"
+            android:title="@string/sort_order"
+            android:entries="@array/sort_orders"
+            android:entryValues="@array/sort_order_values"
+            android:defaultValue="title_asc" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/data_settings"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="clear_cache"
+            android:title="@string/clear_cache"
+            android:summary="@string/clear_cache_summary" />
+
+        <Preference
+            android:key="reset_data"
+            android:title="@string/reset_data"
+            android:summary="@string/reset_data_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

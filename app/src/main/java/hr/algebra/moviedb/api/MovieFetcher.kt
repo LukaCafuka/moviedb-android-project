@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import hr.algebra.moviedb.MOVIE_PROVIDER_CONTENT_URI
 import hr.algebra.moviedb.MovieReciever
+import hr.algebra.moviedb.framework.NotificationHelper
 import hr.algebra.moviedb.framework.sendBroadcast
 import hr.algebra.moviedb.handler.download
 import hr.algebra.moviedb.model.Item
@@ -16,66 +17,77 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class MovieFetcher(private val context: Context) {
 
     private val movieApi: MovieApi
+    
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl(API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        movieApi = retrofit.create<MovieApi>()
+        movieApi = retrofit.create(MovieApi::class.java)
     }
 
-    fun fetchItems(count: Int = 10) {
-        val request = movieApi.fetchItems()
+    fun fetchItems(page: Int = 1) {
+        val request = movieApi.fetchPopularMovies(page = page)
 
-        request.enqueue(object: Callback<Record> {
+        request.enqueue(object : Callback<TmdbResponse> {
             override fun onResponse(
-                call: Call<Record?>,
-                response: Response<Record?>
+                call: Call<TmdbResponse>,
+                response: Response<TmdbResponse>
             ) {
-                response.body()?.record.let { populateItems(it) }
+                if (response.isSuccessful) {
+                    response.body()?.results?.let { populateItems(it) }
+                } else {
+                    Log.e("MovieFetcher", "API Error: ${response.code()} - ${response.message()}")
+                    // Still send broadcast to proceed to main screen
+                    context.sendBroadcast<MovieReciever>()
+                }
             }
 
             override fun onFailure(
-                call: Call<Record?>,
+                call: Call<TmdbResponse>,
                 t: Throwable
             ) {
-                Log.e("ERROR", t.toString(), t)
+                Log.e("MovieFetcher", "Network Error: ${t.message}", t)
+                // Still send broadcast to proceed to main screen
+                context.sendBroadcast<MovieReciever>()
             }
         })
-
     }
 
-    private fun populateItems(movieItems: List<MovieItem>?) {
-
+    private fun populateItems(movieItems: List<MovieItem>) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            movieItems?.forEach {
-                val picturePath = download(context, it.url)
+            var insertedCount = 0
+            movieItems.forEach { movie ->
+                // Build full poster URL from TMDB
+                val posterUrl = movie.posterPath?.let { IMAGE_BASE_URL + it }
+                val posterPath = posterUrl?.let { download(context, it) }
 
                 val values = ContentValues().apply {
-                    put(Item::title.name, it.title)
-                    put(Item::explanation.name, it.explanation)
-                    put(Item::picturePath.name, picturePath ?: "")
-                    put(Item::date.name, it.date)
-                    put(Item::read.name, false)
+                    put(Item::title.name, movie.title)
+                    put(Item::overview.name, movie.overview)
+                    put(Item::posterPath.name, posterPath ?: "")
+                    put(Item::releaseDate.name, movie.releaseDate ?: "Unknown")
+                    put(Item::rating.name, movie.rating)
+                    put(Item::watched.name, false)
                 }
-
-
 
                 context.contentResolver.insert(
                     MOVIE_PROVIDER_CONTENT_URI,
                     values
                 )
-
+                insertedCount++
             }
-            // back to the FG
+            
+            // Show notification with PendingIntent
+            NotificationHelper.showMoviesFetchedNotification(context, insertedCount)
+            
+            // Notify that data import is complete
             context.sendBroadcast<MovieReciever>()
         }
     }
-
 }

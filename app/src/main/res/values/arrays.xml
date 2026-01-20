@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="refresh_intervals">
+        <item>Every hour</item>
+        <item>Every 6 hours</item>
+        <item>Every 12 hours</item>
+        <item>Daily</item>
+    </string-array>
+
+    <string-array name="refresh_interval_values">
+        <item>3600</item>
+        <item>21600</item>
+        <item>43200</item>
+        <item>86400</item>
+    </string-array>
+
+    <string-array name="sort_orders">
+        <item>Title (A-Z)</item>
+        <item>Title (Z-A)</item>
+        <item>Release Date (Newest)</item>
+        <item>Release Date (Oldest)</item>
+        <item>Rating (Highest)</item>
+        <item>Rating (Lowest)</item>
+    </string-array>
+
+    <string-array name="sort_order_values">
+        <item>title_asc</item>
+        <item>title_desc</item>
+        <item>date_desc</item>
+        <item>date_asc</item>
+        <item>rating_desc</item>
+        <item>rating_asc</item>
+    </string-array>
+</resources>

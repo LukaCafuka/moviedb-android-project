@@ -43,29 +43,28 @@ fun Context.isOnline(): Boolean {
 }
 
 @SuppressLint("Range")
-fun Context.fetchItems() : MutableList<Item> {
+fun Context.fetchItems(): MutableList<Item> {
     val items = mutableListOf<Item>()
 
-   contentResolver.query(
+    contentResolver.query(
         MOVIE_PROVIDER_CONTENT_URI,
         null,
         null,
         null,
         null
-    ).use { rs ->
-        while (rs?.moveToNext() == true) {
+    ).use { cursor ->
+        while (cursor?.moveToNext() == true) {
             items.add(Item(
-                rs.getLong(rs.getColumnIndex(Item::_id.name)),
-                rs.getString(rs.getColumnIndex(Item::title.name)),
-                rs.getString(rs.getColumnIndex(Item::explanation.name)),
-                rs.getString(rs.getColumnIndex(Item::picturePath.name)),
-                rs.getString(rs.getColumnIndex(Item::date.name)),
-                rs.getInt(rs.getColumnIndex(Item::read.name)) == 0
+                cursor.getLong(cursor.getColumnIndex(Item::_id.name)),
+                cursor.getString(cursor.getColumnIndex(Item::title.name)),
+                cursor.getString(cursor.getColumnIndex(Item::overview.name)),
+                cursor.getString(cursor.getColumnIndex(Item::posterPath.name)),
+                cursor.getString(cursor.getColumnIndex(Item::releaseDate.name)),
+                cursor.getDouble(cursor.getColumnIndex(Item::rating.name)),
+                cursor.getInt(cursor.getColumnIndex(Item::watched.name)) == 1
             ))
         }
-
-   }
-
+    }
 
     return items
 }
