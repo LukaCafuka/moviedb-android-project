@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Katalog Filmova</string>
+    <string name="please_wait">Molimo pričekajte</string>
+    <string name="no_internet">Nema interneta</string>
+    <string name="hello_blank_fragment">Pozdrav prazni fragment</string>
+    <string name="application_made_by_algebra_students">Aplikacija izrađena od strane studenata Algebre</string>
+    <string name="items">Filmovi</string>
+    <string name="about">O aplikaciji</string>
+    <string name="exit">Izlaz</string>
+    <string name="do_you_really_want_to_exit_an_app">Želite li stvarno izaći iz aplikacije?</string>
+    <string name="cancel">Odustani</string>
+    <string name="settings">Postavke</string>
+    <string name="general_settings">Opće postavke</string>
+    <string name="display_settings">Postavke prikaza</string>
+    <string name="data_settings">Postavke podataka</string>
+    <string name="auto_refresh">Automatsko osvježavanje</string>
+    <string name="auto_refresh_summary">Automatski osvježi podatke o filmovima</string>
+    <string name="refresh_interval">Interval osvježavanja</string>
+    <string name="refresh_interval_summary">Koliko često osvježavati podatke</string>
+    <string name="show_images">Prikaži slike</string>
+    <string name="show_images_summary">Prikaži slike filmova u popisu</string>
+    <string name="sort_order">Redoslijed sortiranja</string>
+    <string name="sort_order_summary">Kako sortirati filmove</string>
+    <string name="clear_cache">Očisti predmemoriju</string>
+    <string name="clear_cache_summary">Očisti spremljene slike i podatke</string>
+    <string name="reset_data">Resetiraj podatke</string>
+    <string name="reset_data_summary">Obriši sve spremljene podatke o filmovima</string>
+    <string name="notification_channel_name">Ažuriranja filmova</string>
+    <string name="notification_channel_description">Obavijesti o novim podacima o filmovima</string>
+    <string name="notification_title">Filmovi ažurirani</string>
+    <string name="notification_content">Dohvaćeno %d novih filmova</string>
+    <string name="movies">Filmovi</string>
+    <string name="notification_permission_title">Omogući obavijesti</string>
+    <string name="notification_permission_message">Dopusti obavijesti kako biste dobili ažuriranja kada se dohvate novi filmovi.</string>
+    <string name="watched">Pogledano</string>
+    <string name="watched_status">Preklopnik statusa gledanja</string>
+    <string name="language">Jezik</string>
+    <string name="language_summary">Odaberi jezik aplikacije</string>
+    <string name="restart_required">Ponovno pokrenite aplikaciju za primjenu promjena jezika</string>
+</resources>

@@ -40,14 +40,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_14sp"
+            <!-- Custom CircularRatingView replacing plain text rating -->
+            <hr.algebra.moviedb.view.CircularRatingView
+                android:id="@+id/circularRating"
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_40dp"
                 android:layout_marginTop="@dimen/_4dp"
-                tools:text="★ 8.5"
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                app:rating="0"
+                app:maxRating="10"
+                app:strokeWidth="@dimen/_4dp"
+                app:showRatingText="true"
+                app:useDynamicColors="true"
+                app:ratingTextColor="?colorOnPrimary"
+                app:backgroundCircleColor="#40FFFFFF" />
 
         </LinearLayout>
 

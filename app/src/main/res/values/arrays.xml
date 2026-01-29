@@ -31,4 +31,14 @@
         <item>rating_desc</item>
         <item>rating_asc</item>
     </string-array>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Hrvatski</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>en</item>
+        <item>hr</item>
+    </string-array>
 </resources>

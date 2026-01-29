@@ -30,6 +30,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         // Set up ListPreference summaries to show selected values
         setupListPreferenceSummary("refresh_interval", getString(R.string.refresh_interval_summary))
         setupListPreferenceSummary("sort_order", getString(R.string.sort_order_summary))
+        setupListPreferenceSummary("language", getString(R.string.language_summary))
         
         // Handle clear cache preference click
         findPreference<Preference>("clear_cache")?.setOnPreferenceClickListener {
@@ -59,6 +60,18 @@ class SettingsFragment : PreferenceFragmentCompat(),
         if (key == "auto_refresh" || key == "refresh_interval") {
             AlarmHelper.updateAlarmFromSettings(requireContext())
         }
+        
+        // Handle language change
+        if (key == "language") {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.restart_required),
+                Toast.LENGTH_LONG
+            ).show()
+            
+            // Restart the activity to apply language change
+            activity?.recreate()
+        }
     }
     
     override fun onDisplayPreferenceDialog(preference: Preference) {
@@ -81,6 +94,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             "sort_order" -> {
                 sharedPreferences.getString("sort_order", "title_asc") ?: "title_asc"
+            }
+            "language" -> {
+                sharedPreferences.getString("language", "en") ?: "en"
             }
             else -> return
         }
@@ -120,11 +136,18 @@ class SettingsFragment : PreferenceFragmentCompat(),
             sharedPreferences.edit().putString("sort_order", "title_asc").apply()
         }
         
+        // Ensure language has a value in SharedPreferences
+        if (!sharedPreferences.contains("language")) {
+            sharedPreferences.edit().putString("language", "en").apply()
+        }
+        
         // Set the values on the preferences to ensure they're synced
         findPreference<ListPreference>("refresh_interval")?.value = 
             sharedPreferences.getString("refresh_interval", "3600")
         findPreference<ListPreference>("sort_order")?.value = 
             sharedPreferences.getString("sort_order", "title_asc")
+        findPreference<ListPreference>("language")?.value = 
+            sharedPreferences.getString("language", "en")
         
     }
     

@@ -1,5 +1,6 @@
 package hr.algebra.moviedb
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.ExistingWorkPolicy
@@ -8,6 +9,7 @@ import androidx.work.WorkManager
 import hr.algebra.moviedb.api.MovieWorker
 import hr.algebra.moviedb.databinding.ActivitySplashScreenBinding
 import hr.algebra.moviedb.framework.AlarmHelper
+import hr.algebra.moviedb.framework.LocaleHelper
 import hr.algebra.moviedb.framework.NotificationHelper
 import hr.algebra.moviedb.framework.applyAnimation
 import hr.algebra.moviedb.framework.callDelayed
@@ -21,6 +23,10 @@ const val DATA_IMPORTED = "hr.algebra.moviedb.data_imported"
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
+    
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.applyLanguage(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

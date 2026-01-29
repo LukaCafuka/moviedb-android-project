@@ -1,5 +1,6 @@
 package hr.algebra.moviedb
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -11,11 +12,16 @@ import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import hr.algebra.moviedb.databinding.ActivityHostBinding
+import hr.algebra.moviedb.framework.LocaleHelper
 import hr.algebra.moviedb.framework.PermissionHelper
 
 private const val KEY_DRAWER_OPEN = "drawer_open"
 
 class HostActivity : AppCompatActivity() {
+    
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.applyLanguage(newBase))
+    }
 
     private lateinit var binding: ActivityHostBinding
     private var isDrawerOpen = false

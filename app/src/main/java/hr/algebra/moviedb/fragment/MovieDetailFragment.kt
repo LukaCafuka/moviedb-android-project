@@ -1,5 +1,7 @@
 package hr.algebra.moviedb.fragment
 
+import android.content.ContentUris
+import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
+import hr.algebra.moviedb.MOVIE_PROVIDER_CONTENT_URI
 import hr.algebra.moviedb.R
 import hr.algebra.moviedb.model.Item
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -18,6 +21,7 @@ private const val ARG_ITEM = "item"
 class MovieDetailFragment : Fragment() {
     
     private var item: Item? = null
+    private var ivWatched: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +57,45 @@ class MovieDetailFragment : Fragment() {
             } else {
                 ivPoster.setImageResource(R.drawable.movie_placeholder)
             }
+            
+            // Setup watched toggle
+            ivWatched = view.findViewById(R.id.ivWatched)
+            updateWatchedIcon(movie.watched)
+            
+            ivWatched?.setOnClickListener {
+                toggleWatched()
+            }
         }
+    }
+    
+    /**
+     * Toggles the watched status and updates the database.
+     */
+    private fun toggleWatched() {
+        item?.let { movie ->
+            // Toggle the watched state
+            movie.watched = !movie.watched
+            
+            // Update database using ContentResolver
+            val uri = ContentUris.withAppendedId(MOVIE_PROVIDER_CONTENT_URI, movie._id!!)
+            val values = ContentValues().apply {
+                put(Item::watched.name, if (movie.watched) 1 else 0)
+            }
+            requireContext().contentResolver.update(uri, values, null, null)
+            
+            // Update the icon
+            updateWatchedIcon(movie.watched)
+        }
+    }
+    
+    /**
+     * Updates the watched icon based on the current state.
+     * Green flag = watched, Red flag = not watched
+     */
+    private fun updateWatchedIcon(watched: Boolean) {
+        ivWatched?.setImageResource(
+            if (watched) R.drawable.green_flag else R.drawable.red_flag
+        )
     }
 
     companion object {

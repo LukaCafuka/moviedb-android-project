@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="refresh_intervals">
+        <item>Svaki sat</item>
+        <item>Svakih 6 sati</item>
+        <item>Svakih 12 sati</item>
+        <item>Dnevno</item>
+    </string-array>
+
+    <string-array name="sort_orders">
+        <item>Naslov (A-Z)</item>
+        <item>Naslov (Z-A)</item>
+        <item>Datum izlaska (Najnoviji)</item>
+        <item>Datum izlaska (Najstariji)</item>
+        <item>Ocjena (Najviša)</item>
+        <item>Ocjena (Najniža)</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Hrvatski</item>
+    </string-array>
+</resources>

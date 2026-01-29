@@ -13,6 +13,7 @@ import hr.algebra.moviedb.MOVIE_PROVIDER_CONTENT_URI
 import hr.algebra.moviedb.MovieDetailActivity
 import hr.algebra.moviedb.R
 import hr.algebra.moviedb.model.Item
+import hr.algebra.moviedb.view.CircularRatingView
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import java.io.File
 
@@ -80,12 +81,14 @@ class ItemAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvItem)
-        private val tvRating = itemView.findViewById<TextView>(R.id.tvRating)
+        private val circularRating = itemView.findViewById<CircularRatingView>(R.id.circularRating)
         private val ivPoster = itemView.findViewById<ImageView>(R.id.ivItem)
 
         fun bind(item: Item, showImages: Boolean) {
             tvTitle.text = item.title
-            tvRating?.text = "★ ${String.format("%.1f", item.rating)}"
+            
+            // Set rating using custom CircularRatingView with animation
+            circularRating.setRating(item.rating.toFloat(), animate = false)
             
             // Show or hide image based on settings
             if (showImages) {

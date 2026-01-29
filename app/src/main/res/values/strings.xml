@@ -33,4 +33,9 @@
     <string name="movies">Movies</string>
     <string name="notification_permission_title">Enable Notifications</string>
     <string name="notification_permission_message">Allow notifications to get updates when new movies are fetched.</string>
+    <string name="watched">Watched</string>
+    <string name="watched_status">Watched status toggle</string>
+    <string name="language">Language</string>
+    <string name="language_summary">Select app language</string>
+    <string name="restart_required">Restart the app to apply language changes</string>
 </resources>

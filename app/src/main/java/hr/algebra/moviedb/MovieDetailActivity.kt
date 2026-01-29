@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import hr.algebra.moviedb.adapter.MovieDetailPagerAdapter
+import hr.algebra.moviedb.framework.LocaleHelper
 import hr.algebra.moviedb.model.Item
 import java.io.Serializable
 
@@ -14,6 +15,10 @@ private const val EXTRA_POSITION = "hr.algebra.moviedb.POSITION"
 private const val KEY_CURRENT_POSITION = "current_position"
 
 class MovieDetailActivity : AppCompatActivity() {
+    
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.applyLanguage(newBase))
+    }
 
     private lateinit var viewPager: ViewPager2
     private lateinit var items: List<Item>
