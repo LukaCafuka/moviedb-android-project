@@ -2,6 +2,7 @@ package hr.algebra.moviedb
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -39,9 +40,14 @@ class MovieDetailActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        @Suppress("DEPRECATION", "UNCHECKED_CAST")
-        items = intent.getSerializableExtra(EXTRA_ITEMS) as? ArrayList<Item> ?: emptyList()
-        
+        // Handle both old and new API for getSerializableExtra
+        items = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra(EXTRA_ITEMS, ArrayList::class.java) as? ArrayList<Item> ?: emptyList()
+        } else {
+            @Suppress("DEPRECATION", "UNCHECKED_CAST")
+            intent.getSerializableExtra(EXTRA_ITEMS) as? ArrayList<Item> ?: emptyList()
+        }
+
         // Restore position from saved state, or use intent extra
         currentPosition = savedInstanceState?.getInt(KEY_CURRENT_POSITION) 
             ?: intent.getIntExtra(EXTRA_POSITION, 0)
@@ -54,7 +60,6 @@ class MovieDetailActivity : AppCompatActivity() {
         viewPager.adapter = MovieDetailPagerAdapter(this, items)
         viewPager.setCurrentItem(currentPosition, false)
 
-        // Update action bar title when page changes
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -63,13 +68,11 @@ class MovieDetailActivity : AppCompatActivity() {
             }
         })
 
-        // Set initial title
         supportActionBar?.title = items.getOrNull(currentPosition)?.title ?: getString(R.string.app_name)
     }
     
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // Save current ViewPager position
         outState.putInt(KEY_CURRENT_POSITION, currentPosition)
     }
 

@@ -4,7 +4,7 @@
     <string name="please_wait">Molimo pričekajte</string>
     <string name="no_internet">Nema interneta</string>
     <string name="hello_blank_fragment">Pozdrav prazni fragment</string>
-    <string name="application_made_by_algebra_students">Aplikacija izrađena od strane studenata Algebre</string>
+    <string name="about_app_text">Aplikacija za praćenje filmova</string>
     <string name="items">Filmovi</string>
     <string name="about">O aplikaciji</string>
     <string name="exit">Izlaz</string>

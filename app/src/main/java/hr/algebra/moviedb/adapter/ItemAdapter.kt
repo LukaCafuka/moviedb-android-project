@@ -51,11 +51,7 @@ class ItemAdapter(
             true
         }
     }
-    
-    /**
-     * Updates the adapter data and display settings.
-     * Call this when settings change or data needs to be refreshed.
-     */
+
     fun updateData(newItems: MutableList<Item>, newShowImages: Boolean) {
         items = newItems
         showImages = newShowImages
@@ -86,11 +82,9 @@ class ItemAdapter(
 
         fun bind(item: Item, showImages: Boolean) {
             tvTitle.text = item.title
-            
-            // Set rating using custom CircularRatingView with animation
+
             circularRating.setRating(item.rating.toFloat(), animate = false)
-            
-            // Show or hide image based on settings
+
             if (showImages) {
                 ivPoster.visibility = View.VISIBLE
                 if (item.posterPath.isNotEmpty()) {

@@ -2,6 +2,7 @@ package hr.algebra.moviedb.fragment
 
 import android.content.ContentUris
 import android.content.ContentValues
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +27,12 @@ class MovieDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            @Suppress("DEPRECATION")
-            item = it.getSerializable(ARG_ITEM) as? Item
+            item = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getSerializable(ARG_ITEM, Item::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                it.getSerializable(ARG_ITEM) as? Item
+            }
         }
     }
 
@@ -67,10 +72,7 @@ class MovieDetailFragment : Fragment() {
             }
         }
     }
-    
-    /**
-     * Toggles the watched status and updates the database.
-     */
+
     private fun toggleWatched() {
         item?.let { movie ->
             // Toggle the watched state
@@ -87,11 +89,7 @@ class MovieDetailFragment : Fragment() {
             updateWatchedIcon(movie.watched)
         }
     }
-    
-    /**
-     * Updates the watched icon based on the current state.
-     * Green flag = watched, Red flag = not watched
-     */
+
     private fun updateWatchedIcon(watched: Boolean) {
         ivWatched?.setImageResource(
             if (watched) R.drawable.green_flag else R.drawable.red_flag

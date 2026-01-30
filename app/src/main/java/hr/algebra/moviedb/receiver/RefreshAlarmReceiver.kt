@@ -13,10 +13,6 @@ import hr.algebra.moviedb.framework.isOnline
 private const val TAG = "RefreshAlarmReceiver"
 private const val WORK_NAME = "movie_refresh_work"
 
-/**
- * BroadcastReceiver that handles scheduled alarm events for movie data refresh.
- * Uses WorkManager to perform the actual refresh in the background.
- */
 class RefreshAlarmReceiver : BroadcastReceiver() {
     
     override fun onReceive(context: Context, intent: Intent) {

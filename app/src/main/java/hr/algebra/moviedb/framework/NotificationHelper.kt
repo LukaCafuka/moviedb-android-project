@@ -15,11 +15,7 @@ private const val CHANNEL_ID = "movie_updates_channel"
 private const val NOTIFICATION_ID = 1001
 
 object NotificationHelper {
-    
-    /**
-     * Creates the notification channel for Android O and above.
-     * Should be called early in the app lifecycle (e.g., in SplashScreenActivity).
-     */
+
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.notification_channel_name)
@@ -34,11 +30,6 @@ object NotificationHelper {
             notificationManager.createNotificationChannel(channel)
         }
     }
-    
-    /**
-     * Shows a notification when movies have been successfully fetched.
-     * Uses PendingIntent to open HostActivity when notification is tapped.
-     */
     fun showMoviesFetchedNotification(context: Context, movieCount: Int) {
         // Create an explicit intent for HostActivity
         val intent = Intent(context, HostActivity::class.java).apply {
@@ -72,10 +63,7 @@ object NotificationHelper {
             e.printStackTrace()
         }
     }
-    
-    /**
-     * Cancels the movie notification if it's currently showing.
-     */
+
     fun cancelNotification(context: Context) {
         NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID)
     }

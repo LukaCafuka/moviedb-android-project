@@ -16,7 +16,7 @@
     <TextView
         android:gravity="top|center"
         android:textSize="@dimen/_50sp"
-        android:text="@string/application_made_by_algebra_students"
+        android:text="@string/about_app_text"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1" />

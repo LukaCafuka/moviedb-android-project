@@ -30,7 +30,7 @@ class MovieProvider : ContentProvider() {
 
     private lateinit var repository: Repository
 
-  // "content://hr.algebra.moviedb.provider/items  -> SVI ITEMS add
+  // "content://hr.algebra.moviedb.provider/items  -> ALL ITEMS add
   // "content://hr.algebra.moviedb.provider/items/22  -> SINGLE ITEM delete, select, update
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         when(URI_MATCHER.match(uri)) {

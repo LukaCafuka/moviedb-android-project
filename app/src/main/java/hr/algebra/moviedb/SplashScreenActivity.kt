@@ -33,10 +33,8 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Create notification channel early
         NotificationHelper.createNotificationChannel(this)
-        
-        // Initialize alarm from settings
+
         AlarmHelper.updateAlarmFromSettings(this)
 
         startAnimations()

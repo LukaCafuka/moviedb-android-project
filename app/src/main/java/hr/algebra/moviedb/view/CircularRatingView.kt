@@ -13,28 +13,6 @@ import androidx.core.content.ContextCompat
 import hr.algebra.moviedb.R
 import kotlin.math.min
 
-/**
- * A custom View that displays a rating as a circular progress indicator.
- * 
- * This component follows Material Design principles and provides:
- * - Circular progress arc showing the rating percentage
- * - Dynamic color coding based on rating value (red/yellow/green)
- * - Centered text displaying the numeric rating
- * - Smooth animation when rating changes
- * - Customizable via XML attributes
- * 
- * Usage in XML:
- * <hr.algebra.moviedb.view.CircularRatingView
- *     android:layout_width="48dp"
- *     android:layout_height="48dp"
- *     app:rating="7.5"
- *     app:maxRating="10"
- *     app:strokeWidth="4dp"
- *     app:showRatingText="true"
- *     app:useDynamicColors="true" />
- * 
- * @author MovieDB App
- */
 class CircularRatingView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -103,9 +81,6 @@ class CircularRatingView @JvmOverloads constructor(
         setupPaints()
     }
 
-    /**
-     * Configures the Paint objects for drawing.
-     */
     private fun setupPaints() {
         // Background circle paint
         backgroundPaint.apply {
@@ -188,7 +163,7 @@ class CircularRatingView @JvmOverloads constructor(
         )
         
         // Adjust text size based on view size
-        if (ratingTextSize == 24f) { // Default value, auto-adjust
+        if (ratingTextSize == 24f) {
             textPaint.textSize = (w * 0.3f)
         }
     }
@@ -212,12 +187,6 @@ class CircularRatingView @JvmOverloads constructor(
         }
     }
 
-    /**
-     * Sets the rating value with optional animation.
-     * 
-     * @param newRating The new rating value (0.0 to maxRating)
-     * @param animate Whether to animate the transition (default: true)
-     */
     fun setRating(newRating: Float, animate: Boolean = true) {
         val clampedRating = newRating.coerceIn(0f, maxRating)
         
